@@ -7,7 +7,7 @@ class cache_fileicons extends CacheItem {
 			$this->import();
 		}
 		else {
-			$result = $db->query("SELECT extension, icon FROM {$db->pre}filetypes");
+			$result = $db->query("SELECT extension, icon FROM {$db->pre}filetypes", false);
 			$this->data = array();
 			while ($row = $db->fetch_assoc($result)) {
 				$ext = explode(',', $row['extension']);

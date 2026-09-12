@@ -21,7 +21,7 @@ INSERT INTO `{:=DBPREFIX=:}smileys` (`id`, `search`, `replace`, `desc`, `show`) 
 (11, ':shy:', '{folder}/rotwerd.gif', 'Shy', '1'),
 (12, ':)', '{folder}/smile.gif', 'Smiling', '1'),
 (13, ':p', '{folder}/tongue.gif', 'Tongue', '1'),
-(14, ':\\', '{folder}/undecided.gif', 'Undecided', '1'),
+(14, ':' || CHAR(92), '{folder}/undecided.gif', 'Undecided', '1'),
 (15, '8)', '{folder}/warsnet.gif', 'Innocent', '1'),
 (16, ';)', '{folder}/wink.gif', 'Wink', '1'),
 (17, ':crazy:', '{folder}/crazy.gif', 'Crazy', '0'),

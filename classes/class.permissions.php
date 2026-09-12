@@ -28,7 +28,7 @@ if (defined('VISCACHA_CORE') == false) { die('Error: Hacking Attempt'); }
 include_once("classes/function.flood.php");
 
 // TODO: Dieser Code sollte nicht auf $my basieren, da sonst bei der Abfrage von fremden Rechten
-// eine gefÃ¤hrliche Vermischung stattfindet.
+// eine gefährliche Vermischung stattfindet.
 
 class slog {
 
@@ -469,7 +469,7 @@ function updatelogged () {
 	}
 
 	if ($my->vlogin) {
-		// Eigentlich kÃ¶nnten wir uns das Updaten der User-Lastvisit-Spalte sparen, fÃ¼r alle User die Cookies nutzen. Einmal, am Anfang der Session wÃ¼rde dann reichen
+		// Eigentlich könnten wir uns das Updaten der User-Lastvisit-Spalte sparen, für alle User die Cookies nutzen. Einmal, am Anfang der Session würde dann reichen
 		$db->query("UPDATE {$db->pre}user SET lastvisit = '".time()."'  WHERE id = '{$my->id}'");
 	}
 
@@ -707,7 +707,7 @@ function banish($reason = null, $until = null) {
  * Checks whether a user has to be banned, and if so, calls $this->banisch().
  */
 function checkBan() {
-	global $my, $filesystem;
+	global $my;
 	if (!empty($this->bots[$my->is_bot]['type']) && $this->bots[$my->is_bot]['type'] == 'e') {
 		$this->banish('lang->bot_banned'); // Ban sucking spam bots
 	}
@@ -762,7 +762,7 @@ function checkBan() {
  * @return object Data of the user who is calling this script
  */
 function sid_load() {
-	global $config, $db;
+	global $config, $db, $gpc;
 	if ($config['session_checkip'] > 0) {
 		$short_ip = ext_iptrim($this->ip, $config['session_checkip']);
 		if ($config['session_checkip'] != 4) {
@@ -851,14 +851,14 @@ function sid_new() {
 	}
 
 	if ($nodata == false && $my->confirm == '11') {
-		$id = "'{$my->id}'";
+		$id = &$my->id;
 		$lastvisit = $my->lastvisit;
 		$my->clv = $my->lastvisit;
 		$my->vlogin = true;
 		makecookie($config['cookie_prefix'].'_vdata', $my->id."|".$my->pw);
 	}
 	else {
-		$id = 'NULL';
+		$id = 0;
 		$lastvisit = $gpc->save_int(getcookie('vlastvisit'));
 		$my->clv = $lastvisit;
 		$my->vlogin = false;
@@ -876,9 +876,9 @@ function sid_new() {
 	$action = $gpc->get('action', str);
 	$qid = $gpc->get('id', int);
 
-	$db->query("INSERT IGNORE {$db->pre}session
+	$db->query("INSERT INTO {$db->pre}session
 	(sid, mid, wiw_script, wiw_action, wiw_id, active, ip, user_agent, lastvisit, mark, pwfaccess, settings, is_bot) VALUES
-	('{$this->sid}', $id,'".SCRIPTNAME."','{$action}','{$qid}','".time()."','{$this->ip}','".$gpc->save_str($this->user_agent)."','{$lastvisit}','".$db->escape_string($my->mark)."','".$db->escape_string($my->pwfaccess)."','".$db->escape_string($my->settings)."','{$my->is_bot}')");
+	('{$this->sid}', '{$id}','".SCRIPTNAME."','{$action}','{$qid}','".time()."','{$this->ip}','".$gpc->save_str($this->user_agent)."','{$lastvisit}','".$db->escape_string($my->mark)."','".$db->escape_string($my->pwfaccess)."','".$db->escape_string($my->settings)."','{$my->is_bot}')");
 
 	return $my;
 }
@@ -895,7 +895,7 @@ function sid_logout() {
 
 	$db->query ("
 	UPDATE {$db->pre}session
-	SET wiw_script = '".SCRIPTNAME."', wiw_action = '{$action}', wiw_id = '{$qid}', active = '{$time}', mid = NULL, pwfaccess = ''
+	SET wiw_script = '".SCRIPTNAME."', wiw_action = '{$action}', wiw_id = '{$qid}', active = '{$time}', mid = '0', pwfaccess = ''
 	WHERE ".iif($my->id > 0, "mid = '{$my->id}'", "sid = '{$this->sid}'")."
 	LIMIT 1
 	");
@@ -1055,7 +1055,7 @@ function sid2url($my = null) {
 function cleanUserData($data) {
 	global $gpc;
 	$trust = array(
-		'id', 'pw', 'regdate', 'posts', 'gender', 'birthday', 'lastvisit', 'opt_textarea', 'language',
+		'id', 'pw', 'regdate', 'posts', 'gender', 'birthday', 'lastvisit', 'icq', 'opt_textarea', 'language',
 		'opt_pmnotify', 'opt_hidebad', 'opt_hidemail', 'opt_newsletter', 'opt_showsig', 'template', 'confirm', // from user-table
 		'ufid', // from userfields-table
 		'mid', 'active', 'wiw_id', 'last_visit', 'is_bot', 'mark', 'pwfaccess', 'settings' // from session-table
@@ -1129,7 +1129,7 @@ function getBoards() {
  * @return array Permissions
  */
 function StrangerPermissions ($groups, $defaultToMemberPerms = true) {
-	global $scache, $my;
+	global $db, $scache;
 
 	$group_cache = $scache->load('groups');
 	if (count($this->statusdata) == 0) {
@@ -1531,7 +1531,7 @@ function setTopicRead($tid, $parents) {
 	global $my, $db;
 	$my->mark['t'][$tid] = time();
 
-	// Erstelle ein Array mit schon gelesenen BeitrÃ¤gen
+	// Erstelle ein Array mit schon gelesenen Beiträgen
 	$inkeys = implode(',', array_keys($my->mark['t']));
 	foreach ($parents as $tf) {
 		$result = $db->query("SELECT COUNT(*) FROM {$db->pre}topics WHERE board = '{$tf}' AND last >= '{$my->clv}' AND id NOT IN({$inkeys})");

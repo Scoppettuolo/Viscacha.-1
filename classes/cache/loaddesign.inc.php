@@ -7,7 +7,7 @@ class cache_loaddesign extends CacheItem {
 			$this->import();
 		}
 		else {
-			$result = $db->query("SELECT id, template, stylesheet, images, name FROM {$db->pre}designs WHERE publicuse = '1'");
+			$result = $db->query("SELECT id, template, stylesheet, images, name FROM {$db->pre}designs WHERE publicuse = '1'", false);
 			$this->data = array();
 			while ($row = $db->fetch_assoc($result)) {
 				$this->data[$row['id']] = $row;
@@ -19,7 +19,7 @@ class cache_loaddesign extends CacheItem {
 	function get ($fresh = false) {
 		if ($fresh == true) {
 			global $db;
-			$result = $db->query("SELECT id, template, stylesheet, images, name FROM {$db->pre}designs");
+			$result = $db->query("SELECT id, template, stylesheet, images, name FROM {$db->pre}designs", false);
 			$design = array();
 			while ($row = $db->fetch_assoc($result)) {
 				$design[$row['id']] = $row;

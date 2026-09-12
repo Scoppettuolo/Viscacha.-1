@@ -27,13 +27,15 @@ error_reporting(E_ALL);
 define('SCRIPTNAME', 'admin');
 define('VISCACHA_CORE', '1');
 
+require_once('classes/php8_compat.php');
+
 include ("data/config.inc.php");
 include ("admin/data/config.inc.php");
 
-if (empty($config['cryptkey']) || empty($config['database'])) {
+if (empty($config['cryptkey']) || empty($config['database']) || empty($config['dbsystem'])) {
 	trigger_error('Viscacha is currently not installed. How to install Viscacha is described in the file "README.md"!', E_USER_ERROR);
 }
-if ((empty($config['dbpw']) || empty($config['dbuser'])) && $config['local_mode'] == 0) {
+if ((empty($config['dbpw']) || empty($config['dbuser'])) && $config['local_mode'] == 0 && (!isset($config['dbsystem']) || $config['dbsystem'] != 'sqlite')) {
 	trigger_error('You have specified database authentification data that is not safe. Please change your database user and the database password!', E_USER_ERROR);
 }
 

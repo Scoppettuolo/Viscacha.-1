@@ -806,6 +806,17 @@ class PowerGraphic {
 	}
 
 	function imagettfbbox($size, $angle, $font, $text) {
+		if (!function_exists('imagettfbbox')) {
+			// Fallback without FreeType: approximate box using built-in font metrics
+			$w = function_exists('imagefontwidth') ? imagefontwidth(3) * strlen((string)$text) : strlen((string)$text) * 8;
+			$h = function_exists('imagefontheight') ? imagefontheight(3) : 12;
+			return array(
+				'left' => 0,
+				'top' => $h,
+				'width' => $w,
+				'height' => $h,
+			);
+		}
 		$box = imagettfbbox($size, $angle, $font, $text);
 
 		$min_x = min(array($box[0], $box[2], $box[4], $box[6]));

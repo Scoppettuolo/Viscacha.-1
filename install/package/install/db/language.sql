@@ -7,4 +7,5 @@ CREATE TABLE `{:=DBPREFIX=:}language` (
 ) ENGINE=MyISAM PACK_KEYS=0 AUTO_INCREMENT=4 ;
 
 INSERT INTO `{:=DBPREFIX=:}language` VALUES (1, 'Deutsch (Formell)', 'German (formal) language pack', '1'),
-(2, 'English', 'English language pack', '1');
+(2, 'English', 'English language pack', '1'),
+(3, 'Castellano', 'Paquete de idioma castellano (español de España)', '1');

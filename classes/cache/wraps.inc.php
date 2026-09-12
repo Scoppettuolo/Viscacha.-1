@@ -12,7 +12,7 @@ class cache_wraps extends CacheItem {
 		    	FROM {$db->pre}documents AS d
 		    		LEFT JOIN {$db->pre}documents_content AS c ON d.id = c.did
 		    	WHERE active = '1'
-		    ");
+		    ", false);
 		    $this->data = array();
 		    while ($row = $db->fetch_assoc($result)) {
 		    	if (!isset($this->data[$row['id']])) {

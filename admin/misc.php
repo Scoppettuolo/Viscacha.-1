@@ -213,6 +213,50 @@ elseif ($job == 'cache_delete_plugins') {
 	}
 	ok('admin.php?action=misc&job=cache', $lang->phrase('admin_misc_cache_deleted_rebuilt_when_needed'));
 }
+elseif ($job == 'onlinestatus') {
+	echo head();
+	$b = file_get_contents('data/imservers.php');
+	?>
+<form name="form" method="post" action="admin.php?action=misc&job=onlinestatus2">
+ <table class="border" border="0" cellspacing="0" cellpadding="4" align="center">
+  <tr>
+   <td class="obox" colspan="2"><b><?php echo $lang->phrase('admin_misc_online_status_server'); ?></b></td>
+  </tr>
+  <tr>
+   <td class="mbox" width="30%">
+   <?php echo $lang->phrase('admin_misc_server'); ?><br />
+   <span class="stext"><?php echo $lang->phrase('admin_misc_per_line_one_user'); ?><br /><a href="http://osi.viscacha.org/" target="_blank"><?php echo $lang->phrase('admin_misc_online_status_server_overview'); ?></a></span>
+   </td>
+   <td class="mbox" width="70%"><textarea name="servers" rows="10" cols="90"><?php echo $b; ?></textarea></td>
+  </tr>
+  <tr>
+   <td class="ubox" colspan="2" align="center"><input type="submit" name="Submit" value="Submit"></td>
+  </tr>
+ </table>
+</form>
+<br />
+ <table class="border" border="0" cellspacing="0" cellpadding="4" align="center">
+  <tr>
+   <td class="obox" colspan="2"><b><?php echo $lang->phrase('admin_misc_online_status_server_info'); ?></b></td>
+  </tr>
+  <tr>
+   <td class="mbox">
+   <p><strong><?php echo $lang->phrase('admin_misc_online_status_meaning_title'); ?></strong><br />
+   <?php echo $lang->phrase('admin_misc_online_status_meaning'); ?></p>
+   <p><strong><?php echo $lang->phrase('admin_misc_from_where_data_for_online_status'); ?></strong><br />
+   <?php echo $lang->phrase('admin_misc_from_where_data_for_online_status_info'); ?>
+   </p>
+   </td>
+  </tr>
+ </table>
+	<?php
+	echo foot();
+}
+elseif ($job == 'onlinestatus2') {
+	echo head();
+	$filesystem->file_put_contents('data/imservers.php', $gpc->get('servers', none));
+	ok('admin.php?action=misc&job=onlinestatus');
+}
 elseif ($job == 'sessionmails') {
 	echo head();
 	$mails = file_get_contents('data/sessionmails.php');
@@ -553,7 +597,7 @@ elseif ($job == "credits") {
 	echo head();
 
 	$loaded_extensions = array_map('strtolower', get_loaded_extensions());
-	$needed_extensions = array('MySQLi', 'Sockets', 'FTP', 'PCRE', 'GD', 'Zlib', 'XML', 'Mime_Magic', 'MBString', 'XDiff');
+	$needed_extensions = array('MySQL', 'MySQLi', 'Sockets', 'FTP', 'PCRE', 'GD', 'Zlib', 'XML', 'Mime_Magic', 'MBString', 'XDiff');
 	$extensions = array();
 	foreach ($needed_extensions as $needed) {
 		$extensions[$needed] = in_array(strtolower($needed), $loaded_extensions);
@@ -601,7 +645,7 @@ elseif ($job == "credits") {
 		<li><a href="http://www.phpclasses.org/browse/author/169072.html" target="_blank">PowerGraphic 1.0 by Carlos Reche</a> (Charts &amp; Diagrams; GNU GPL)</li>
 		<li><a href="http://www.invisionpower.com" target="_blank">PHP TAR by Matt Mecham</a> (TAR file handling; GNU GPL)</li>
 		<li><a href="http://www.phpclasses.org/browse/author/98157.html" target="_blank">Advanced FTP client class (Build 2008-09-17) by Alexey Dotsenko</a> (PHP FTP Client; Freely Distributable)</li>
-		<li><a href="http://phlymail.com/en/downloads/idna/" target="_blank">Net_IDNA 0.9.0 by phlyLabs</a> (Punycode converter; GNU LGPL)</li>
+		<li><a href="http://phlymail.com/en/downloads/idna/" target="_blank">Net_IDNA 0.8.0 by phlyLabs</a> (Punycode converter; GNU LGPL)</li>
 		<li><a href="http://www.openwebware.com" target="_blank">openWYSIWYG 1.4.7 by openwebware.com</a> (WYSIWYG editor; GNU LGPL)</li>
 		<li><a href="http://snoopy.sourceforge.net" target="_blank">Snoopy 1.2.4 by New Digital Group</a> (HTTP file access; GNU LGPL)</li>
 		<li>and many more code snippets, classes and functions...</li>

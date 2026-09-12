@@ -188,7 +188,7 @@ function matchlen(&$a, &$b) {
 	$alen = strlen($a);
 	$blen = strlen($b);
 	$d = min($alen, $blen);
-	while(@($a{$c} == $b{$c}) && ($c < $d)) {
+	while(@($a[$c] == $b[$c]) && ($c < $d)) {
   		$c++;
   	}
   	return $c;

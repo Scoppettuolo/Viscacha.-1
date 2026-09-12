@@ -70,7 +70,7 @@ class FeedItem extends HtmlDescribable {
 	// Added by Joseph LeBlanc, contact@jlleblanc.com
 	var $enclosures = Array();
 
-	function addEnclosure($url, $length = 0, $type) {
+	function addEnclosure($url, $length = 0, $type = "") {
 		$this->enclosures[] = array("url" => $url, "length" => $length, "type" => $type);
 	}
 	// end add, Joseph LeBlanc

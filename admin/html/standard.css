@@ -1,14 +1,37 @@
-* {
-	font-family: "Lucida Grande", "MS Sans Serif", "Bitstream Vera Sans", Verdana, sans-serif;
+/* Viscacha Admin – modernized, same palette, slightly larger */
+:root {
+	--adm-bg: #EEEEEE;
+	--adm-surface: #ffffff;
+	--adm-panel: #F7F8F9;
+	--adm-border: #3465A4;
+	--adm-border-hot: #A40000;
+	--adm-link: #204A87;
+	--adm-link-hover: #A40000;
+	--adm-text: #000000;
+	--adm-muted: #666666;
+	--adm-font: "Lucida Grande", "Segoe UI", "MS Sans Serif", "Bitstream Vera Sans", Verdana, sans-serif;
+	--adm-mono: "Bitstream Vera Mono", "Courier New", ui-monospace, monospace;
+	--adm-font-size: 10.5pt;
+	--adm-font-small: 9pt;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
 }
 body {
-	background-color: #EEEEEE;
-	margin: 5px;
-	font-size: 9pt;
-	color: #000000;
+	background-color: var(--adm-bg);
+	font-family: var(--adm-font);
+	margin: 8px;
+	font-size: var(--adm-font-size);
+	line-height: 1.4;
+	color: var(--adm-text);
 }
 tt, code, pre, .texteditor, .monospace {
-	font-family: "Bitstream Vera Mono", "Courier New", monospace;
+	font-family: var(--adm-mono);
 }
 form {
 	margin: 0px;
@@ -19,7 +42,7 @@ em, i {
 hr {
 	height: 1px;
 	border: 0;
-	border-bottom: 1px #3465A4 solid;
+	border-bottom: 1px solid var(--adm-border);
 }
 li {
 	font-size: 12px;
@@ -29,16 +52,16 @@ ul {
 	margin-top: 2px;
 }
 input, select, textarea {
-	font-size: 9pt;
-	background-color: #F7F8F9;
-	border: 1px solid #3465A4;
-	color: #666666;
+	font-size: var(--adm-font-size);
+	background-color: var(--adm-panel);
+	border: 1px solid var(--adm-border);
+	color: var(--adm-muted);
 	padding: 1px;
 }
 input:focus, select:focus, textarea:focus, input:hover, select:hover, textarea:hover {
-	background-color: #F7F8F9;
-	border: 1px solid #A40000;
-	color: #000000;
+	background-color: var(--adm-panel);
+	border: 1px solid var(--adm-border-hot);
+	color: var(--adm-text);
 }
 .texteditor {
 	white-space: pre;
@@ -46,21 +69,21 @@ input:focus, select:focus, textarea:focus, input:hover, select:hover, textarea:h
 }
 a {
 	text-decoration: none;
-	color: #204A87;
+	color: var(--adm-link);
 }
 a:hover {
-	color : #A40000;
+	color: var(--adm-link-hover);
 }
 .center {
 	text-align: center;
 }
 .border {
-	width: 98%;
+	width: 100%; max-width: 1400px;
 	border-collapse: collapse;
 	margin: auto;
 }
 .border td, .border th {
-	border: 1px solid #3465A4;
+	border: 1px solid var(--adm-border);
 	padding: 4px;
 	line-height: 120%;
 }
@@ -100,7 +123,7 @@ a:hover {
 	line-height: 5px;
 }
 .box {
-	border: 1px solid #3465A4;
+	border: 1px solid var(--adm-border);
 	background-color: #2E3436;
 	margin: 2px;
 	padding: 2px;
@@ -108,10 +131,10 @@ a:hover {
 .obox {
 	padding: 2px;
 	margin: 0px;
-	background-color: #204A87;
+	background-color: var(--adm-link);
 	background-image: url(images/obox.gif);
 	color: #ffffff;
-	font-size: 9pt;
+	font-size: var(--adm-font-size);
 	border-bottom: 1px solid #3465A4;
 	letter-spacing: 1px;
 	font-weight: bold;
@@ -142,7 +165,7 @@ a:hover {
 }
 .ubox {
 	background-color: #94B7DF;
-	font-size: 8pt;
+	font-size: var(--adm-font-small);
 	font-weight: bold;
 	color: #204a87;
 }
@@ -153,15 +176,15 @@ a:hover {
 	border-bottom: 1px dotted #A40000;
 }
 .mbox {
-	background-color: #ffffff;
-	font-size: 9pt;
+	background-color: var(--adm-surface);
+	font-size: var(--adm-font-size);
 }
 .mmbox {
-	background-color: #F7F8F9;
-	font-size: 9pt;
+	background-color: var(--adm-panel);
+	font-size: var(--adm-font-size);
 }
 .stext {
-	font-size: 8pt;
+	font-size: var(--adm-font-small);
 	color: #555753;
 }
 .obox .stext {
@@ -170,7 +193,7 @@ a:hover {
 #copyright {
 	padding-top: 1em;
 	clear: both;
-	font-size: 8pt;
+	font-size: var(--adm-font-small);
 	text-align: center;
 }
 .right {
@@ -227,7 +250,7 @@ a:hover {
 	border-bottom: 0px;
 	background-color: #F5F8FA;
 	padding: 1px 5px 1px 5px;
-	font-size: 8pt;
+	font-size: var(--adm-font-small);
 }
 .bb_blockcode_options:hover, .bb_blockcode_options:focus {
 	background-color: #E1E8EF;
@@ -242,7 +265,7 @@ a:hover {
 }
 .bb_quote {
 	margin: 0px;
-	width: 98%;
+	width: 100%; max-width: 1400px;
 	padding-left: 5px;
 	display: block;
 }
@@ -250,7 +273,7 @@ a:hover {
 	border-bottom: 1px solid #839FBC;
 	border-top: 1px solid #839FBC;
 	padding-left: 10px;
-	font-size: 9pt;
+	font-size: var(--adm-font-size);
 	display: block;
 	margin: 1px;
 }
@@ -259,7 +282,7 @@ a:hover {
 	border-bottom: 1px dashed #BCCADA;
 	padding-left: 10px;
 	color: #7E9AB8;
-	font-size: 9pt;
+	font-size: var(--adm-font-size);
 	display: block;
 }
 .bb_edit ins {
@@ -269,7 +292,7 @@ a:hover {
 }
 .bb_hide {
 	color: #aaaaaa;
-	font-size: 9pt;
+	font-size: var(--adm-font-size);
 }
 .bb_hide span {
 	margin-left: 10px;
@@ -294,7 +317,7 @@ a:hover {
 .popup strong {
 	display: block;
 	padding: 2px;
-	font-size: 9pt;
+	font-size: var(--adm-font-size);
 	color: #336699;
 	background-color: #BCCADA;
 	border-top: 1px solid #336699;
@@ -305,8 +328,8 @@ a:hover {
 	list-style-type: none;
 }
 .popup li {
-	font-size: 9pt;
-	background-color: #ffffff;
+	font-size: var(--adm-font-size);
+	background-color: var(--adm-surface);
 	font-weight: normal;
 	border-top: 1px solid #336699;
 	padding: 0px;
@@ -322,10 +345,10 @@ a:hover {
 	text-decoration: none;
 	display: block;
 	cursor: pointer;
-	background-color: #ffffff;
+	background-color: var(--adm-surface);
 }
 .popup li a:hover, .popup_line:hover {
-	color: #000000;
+	color: var(--adm-text);
 	background-color: #F5F8FA;
 }
 
@@ -354,13 +377,13 @@ a:hover {
 }
 
 .editor_statusbar {
-	font-size: 8pt;
+	font-size: var(--adm-font-small);
 	height: 1em;
 	background-color: #F4F4F4;
-	color: #000000;
+	color: var(--adm-text);
 }
 .editor_statusbar a {
-	color: #000000;
+	color: var(--adm-text);
 	text-decoration: none;
 }
 .editor_statusbar a:hover {
@@ -380,14 +403,14 @@ a:hover {
 }
 
 .editor_textarea_inner {
-	background-color: #FFFFFF;
-	font-size: 9pt;
+	background-color: var(--adm-surface);
+	font-size: var(--adm-font-size);
 	border-width: 0px;
 	width: 100%;
 	overflow: auto;
 }
 .editor_textarea_inner:hover, .editor_textarea_inner:focus {
-	background-color: #FFFFFF;
+	background-color: var(--adm-surface);
 	border-width: 0px;
 }
 
@@ -396,8 +419,8 @@ a:hover {
 .editor_toolbar_dropdown {
 	border: 1px solid #F4F4F4;
 	padding: 2px;
-	color: #000000;
-	font-size: 9pt;
+	color: var(--adm-text);
+	font-size: var(--adm-font-size);
 }
 .editor_toolbar_dropdown:hover {
 	border: 1px solid #999999;
@@ -424,7 +447,7 @@ a:hover {
 }
 .editor_textarea_outer .popup strong {
 	text-align: center;
-	color: #000000;
+	color: var(--adm-text);
 	background-color: #eeeeee;
 	border-width: 0px;
 	border-bottom: 1px solid #888888;
@@ -434,7 +457,7 @@ a:hover {
 	padding: 2px 3px 1px 3px;
 }
 .editor_textarea_outer .popup li a, .editor_textarea_outer .popup_line {
-	color: #000000;
+	color: var(--adm-text);
 	text-decoration: none;
 	border: 1px solid #ffffff;
 }
@@ -445,7 +468,7 @@ a:hover {
 
 .bbcolor {
 	padding: 10px;
-	background-color: #ffffff;
+	background-color: var(--adm-surface);
 	line-height: 13px;
 	font-size: 13px;
 }
@@ -468,13 +491,13 @@ a:hover {
 }
 
 .bbtable {
-	background-color: #ffffff;
+	background-color: var(--adm-surface);
 	padding: 4px;
 }
 .bbtable input {
 	width: 35px;
 	float: left;
-	background-color: #ffffff;
+	background-color: var(--adm-surface);
 	border: 1px solid #888888;
 	text-align: center;
 	margin-right: 5px;
@@ -486,21 +509,21 @@ a:hover {
 
 /* WYSIWYG-only */
 .dropdown {
-	background-color: #FFFFFF;
+	background-color: var(--adm-surface);
 	border: 1px solid #333333;
 	height: 160px;
 	overflow: auto;
 	padding: 1px;
 }
 button.mouseOver {
-	background-color: #EEEEEE;
+	background-color: var(--adm-bg);
 	border: 1px solid #CCCCCC;
 	padding: 2px;
 	cursor: default;
 	text-align: left;
 }
 button.mouseOut {
-	background-color: #FFFFFF;
+	background-color: var(--adm-surface);
 	border: 1px solid #FFFFFF;
 	padding: 2px;
 	cursor: default;
@@ -513,7 +536,7 @@ button.mouseOut {
 }
 .colorpicker-div {
 	padding: 10px;
-	background-color: #ffffff;
+	background-color: var(--adm-surface);
 	border: 1px solid #000000;
 }
 .colorpicker-div img, .colorpicker-td img {
@@ -532,4 +555,27 @@ button.mouseOut {
 .select_color td {
 	width: 10px;
 	height: 10px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid var(--adm-border);
+	outline-offset: 1px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Slightly roomier admin tables/boxes */
+.border {
+	width: 100%;
+	max-width: 1400px;
+}
+.mbox, .bbody, .tbody {
+	padding: 6px 8px;
 }

@@ -23,6 +23,6 @@ INSERT INTO `{:=DBPREFIX=:}topics` (`id`, `board`, `topic`, `prefix`, `posts`, `
 INSERT INTO `{:=DBPREFIX=:}vote` (`id`, `tid`, `answer`) VALUES ('1', '4', 'Good');
 INSERT INTO `{:=DBPREFIX=:}vote` (`id`, `tid`, `answer`) VALUES ('2', '4', 'Average');
 INSERT INTO `{:=DBPREFIX=:}vote` (`id`, `tid`, `answer`) VALUES ('3', '4', 'Bad');
-INSERT INTO `{:=DBPREFIX=:}vote` (`id`, `tid`, `answer`) VALUES ('4', '4', 'Don\'t know :-x');
+INSERT INTO `{:=DBPREFIX=:}vote` (`id`, `tid`, `answer`) VALUES ('4', '4', 'Don''t know :-x');
 
 INSERT INTO `{:=DBPREFIX=:}votes` (`id`, `mid`, `aid`) VALUES ('1', '1', '4');

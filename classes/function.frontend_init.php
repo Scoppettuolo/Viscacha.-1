@@ -24,6 +24,9 @@
 
 if (defined('VISCACHA_CORE') == false) { die('Error: Hacking Attempt'); }
 
+// PHP 8 compatibility
+require_once(dirname(__FILE__) . '/php8_compat.php');
+
 if (in_array('config', array_keys(array_change_key_case($_REQUEST)))) {
 	trigger_error('Error: Hacking Attemp (Config variable)', E_USER_ERROR);
 }
@@ -31,10 +34,10 @@ if (in_array('config', array_keys(array_change_key_case($_REQUEST)))) {
 // Gets a file with php-functions
 require_once("classes/function.phpcore.php");
 
-if (empty($config['cryptkey']) || empty($config['database'])) {
+if (empty($config['cryptkey']) || empty($config['database']) || empty($config['dbsystem'])) {
 	trigger_error('Viscacha is currently not installed. How to install Viscacha is described in the file "README.md"!', E_USER_ERROR);
 }
-if ((empty($config['dbpw']) || empty($config['dbuser'])) && $config['local_mode'] == 0) {
+if ((empty($config['dbpw']) || empty($config['dbuser'])) && $config['local_mode'] == 0 && (!isset($config['dbsystem']) || $config['dbsystem'] != 'sqlite')) {
 	trigger_error('You have specified database authentification data that is not safe. Please change your database user and the database password!', E_USER_ERROR);
 }
 
@@ -54,8 +57,9 @@ $filesystem = new filesystem($config['ftp_server'], $config['ftp_user'], $config
 $filesystem->set_wd($config['ftp_path'], $config['fpath']);
 
 // Database functions
-require_once('classes/database/mysqli.inc.php');
+require_once('classes/database/'.$config['dbsystem'].'.inc.php');
 $db = new DB($config['host'], $config['dbuser'], $config['dbpw'], $config['database'], $config['dbprefix']);
+$db->setPersistence($config['pconnect']);
 
 /* 	Handling of _GET, _POST, _REQUEST, _COOKIE, _SERVER, _ENV
  	_ENV, _SERVER: Won't be checked, but null-byte is deleted
@@ -80,11 +84,15 @@ $http_vars = array(
 	'location' => str,
 	'signature' => str,
 	'hp' => str,
+	'icq' => str,
 	'pic' => db_esc,
 	'question' => str,
 	'type' => str,
 	'gender' => str,
+	'aol' => db_esc,
+	'msn' => db_esc,
 	'skype' => db_esc,
+	'yahoo' => db_esc,
 	'jabber' => db_esc,
 	'board' => int,
 	'topic_id' => int,
@@ -166,7 +174,7 @@ if (!file_exists('.htaccess')) {
 	if ($config['hterrordocs'] == 1) {
 		$htaccess[] = "ErrorDocument 400	{$config['furl']}/misc.php?action=error&id=400";
 		// 401 ErrorDocument entfernt wegen Fehlermeldung (Bug #293): "Cannot use a full URL in a 401 ErrorDocument directive"
-		// Grund: Relative Angaben beschï¿½digen bei Adressen in Unterverzeichnissen die relativen Verlinkungen zu Bildern etc.
+		// Grund: Relative Angaben beschädigen bei Adressen in Unterverzeichnissen die relativen Verlinkungen zu Bildern etc.
 		$htaccess[] = "ErrorDocument 403	{$config['furl']}/misc.php?action=error&id=403";
 		$htaccess[] = "ErrorDocument 404	{$config['furl']}/misc.php?action=error&id=404";
 		$htaccess[] = "ErrorDocument 500	{$config['furl']}/misc.php?action=error&id=500";

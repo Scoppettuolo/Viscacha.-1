@@ -843,6 +843,10 @@ elseif ($job == 'user') {
 	   <input type="checkbox" name="mlistfields[]" value="birthday"<?php echo iif(in_array('birthday', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_birthday'); ?><br />
 	   <input type="checkbox" name="mlistfields[]" value="pic"<?php echo iif(in_array('pic', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_avatar'); ?><br />
 	   <input type="checkbox" name="mlistfields[]" value="lastvisit"<?php echo iif(in_array('lastvisit', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_last_visit'); ?><br />
+	   <input type="checkbox" name="mlistfields[]" value="icq"<?php echo iif(in_array('icq', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_icq'); ?><br />
+	   <input type="checkbox" name="mlistfields[]" value="yahoo"<?php echo iif(in_array('yahoo', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_yahoo'); ?><br />
+	   <input type="checkbox" name="mlistfields[]" value="aol"<?php echo iif(in_array('aol', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_aol'); ?><br />
+	   <input type="checkbox" name="mlistfields[]" value="msn"<?php echo iif(in_array('msn', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_msn'); ?><br />
 	   <input type="checkbox" name="mlistfields[]" value="jabber"<?php echo iif(in_array('jabber', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_jabber'); ?><br />
 	   <input type="checkbox" name="mlistfields[]" value="skype"<?php echo iif(in_array('skype', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_skype'); ?><br />
 	   <input type="checkbox" name="mlistfields[]" value="online"<?php echo iif(in_array('online', $mlistfields), ' checked="checked"'); ?> /> <?php echo $lang->phrase('admin_memberlist_online-status'); ?>
@@ -1266,6 +1270,15 @@ elseif ($job == 'db') {
 	   <td class="ubox" colspan="2"><?php echo $lang->phrase('admin_database_info'); ?></td>
 	  </tr>
 	  <tr>
+	   <td class="mbox" width="50%"><?php echo $lang->phrase('admin_database_driver'); ?></td>
+	   <td class="mbox" width="50%">
+	   	<select name="dbsystem">
+	   		<option value="mysql"<?php echo iif($config['dbsystem'] == 'mysql', ' selected="selected"'); ?>><?php echo $lang->phrase('admin_database_mysql_standard'); ?></option>
+	   		<option value="mysqli"<?php echo iif($config['dbsystem'] == 'mysqli', ' selected="selected"'); ?>><?php echo $lang->phrase('admin_database_masql_improved'); ?></option>
+	   	</select>
+	   </td>
+	  </tr>
+	  <tr>
 	   <td class="mbox" width="50%"><?php echo $lang->phrase('admin_server_database_resides'); ?></td>
 	   <td class="mbox" width="50%"><code><?php echo $config['host']; ?></code></td>
 	  </tr>
@@ -1285,6 +1298,10 @@ elseif ($job == 'db') {
 	   <td class="mbox" width="50%"><?php echo $lang->phrase('admin_important_tabels'); ?><br /><span class="stext"><?php echo $lang->phrase('admin_important_tabels_info'); ?></span></td>
 	   <td class="mbox" width="50%"><input type="text" name="optimizetables" value="<?php echo $config['optimizetables']; ?>" size="50"></td>
 	  </tr>
+	  <tr>
+	   <td class="mbox" width="50%"><?php echo $lang->phrase('admin_persistent_connection'); ?><br /><span class="stext"><?php echo $lang->phrase('admin_persistent_connection_info'); ?></span></td>
+	   <td class="mbox" width="50%"><input type="checkbox" name="pconnect" value="1"<?php echo iif($config['pconnect'],' checked'); ?>></td>
+	  </tr>
 	   <td class="ubox" width="100%" colspan="2" align="center"><input type="submit" name="Submit" value="<?php echo $lang->phrase('admin_form_submit'); ?>"></td>
 	  </tr>
 	 </table>
@@ -1296,6 +1313,8 @@ elseif ($job == 'db2') {
 	echo head();
 
 	$c->getdata();
+	$c->updateconfig('pconnect',int);
+	$c->updateconfig('dbsystem',str);
 	$c->updateconfig('optimizetables',str);
 	$c->savedata();
 
@@ -2554,6 +2573,7 @@ else {
 		  	  <option value="admin.php?action=members&amp;job=manage"><?php echo $lang->phrase('admin_select_manage_member'); ?></option>
 		  	  <option value="admin.php?action=members&amp;job=search"><?php echo $lang->phrase('admin_select_search_member'); ?></option>
 		  	  <option value="admin.php?action=profilefield&amp;job=manage"><?php echo $lang->phrase('admin_select_profile_field_manager'); ?></option>
+		  	  <option value="admin.php?action=misc&amp;job=onlinestatus"><?php echo $lang->phrase('admin_select_online_status'); ?></option>
 	        </select> <input style="width: 18%" type="submit" value="<?php echo $lang->phrase('admin_form_go'); ?>">
 		  </form>
 		</td>

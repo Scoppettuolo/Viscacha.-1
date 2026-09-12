@@ -1,0 +1,41 @@
+<?php
+if (defined('VISCACHA_CORE') == false) { die('Error: Hacking Attempt'); }
+$lang = array();
+$lang['admin_add_filetype_head'] = 'Add filetype';
+$lang['admin_attachment'] = 'Adjunto (offer for download)';
+$lang['admin_attpic_no'] = 'No';
+$lang['admin_attpic_partially'] = 'Partially';
+$lang['admin_attpic_yes'] = 'Sí';
+$lang['admin_button_add_new_filetype'] = 'Add new Archivo Type';
+$lang['admin_button_delete'] = 'Eliminar';
+$lang['admin_button_send'] = 'Enviar';
+$lang['admin_change_filetype'] = 'Change filetype:';
+$lang['admin_delivery_type'] = 'Delivery type:';
+$lang['admin_description'] = 'Descripción:';
+$lang['admin_description2'] = 'HTML is allowed!';
+$lang['admin_err_no_valid_delivery_type'] = 'No valid delivery type';
+$lang['admin_err_no_valid_extension'] = 'No valid extension';
+$lang['admin_extensions'] = 'Extension(s) (separated by comma):';
+$lang['admin_filetypes_deleted'] = '{$anz} entries deleted';
+$lang['admin_filetype_added'] = 'Archivotype ha sido added';
+$lang['admin_filetype_changed'] = 'Archivotype ha sido changed';
+$lang['admin_filetype_edit'] = 'Editar';
+$lang['admin_icon'] = 'Archivo for the Icon:';
+$lang['admin_icon2'] = 'Opcional. Do not specify the extension of the file.';
+$lang['admin_id_not_found'] = 'ID not found';
+$lang['admin_inline'] = 'Inline (open in browser)';
+$lang['admin_manage_filetypes'] = 'Manage Archivotypes';
+$lang['admin_mimetype'] = 'Mimetype:';
+$lang['admin_relevant_programs'] = 'Relevant programs:';
+$lang['admin_relevant_programs2'] = 'Opcional: A selection of relevant programs which work with this filetype.';
+$lang['admin_th_attach'] = 'Attachm.';
+$lang['admin_th_attach_title'] = 'Archivotype is allowed for Adjuntos';
+$lang['admin_th_delete'] = 'Eliminar';
+$lang['admin_th_delete_all'] = 'Todos';
+$lang['admin_th_filetype'] = 'Archivotype';
+$lang['admin_th_icon'] = 'Icon';
+$lang['admin_th_mimetype'] = 'Mimetype';
+$lang['admin_th_pics'] = 'Pics';
+$lang['admin_th_pics_title'] = 'Archivotype is allowed for Avatars/Personal Pics';
+$lang['admin_th_relevant_programs'] = 'Relevant programs';
+?>

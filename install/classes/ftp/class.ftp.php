@@ -82,17 +82,6 @@ class ftp_base {
 		elseif(isMac() == true) $this->OS_local=FTP_OS_Mac;
 	}
 
-	// To be implemented by child classes
-	function _connect($host, $port) {}
-	function _exec($cmd, $fnction="_exec") {}
-	function _readmsg($fnction="_readmsg") {}
-	function _settimeout($sock) {}
-	function _data_prepare($mode=FTP_ASCII) {}
-	function _data_read($mode=FTP_ASCII, $fp=NULL) {}
-	function _data_write($mode=FTP_ASCII, $fp=NULL) {}
-	function _data_close() {}
-	function _quit() {}
-
 // <!-- --------------------------------------------------------------------------------------- -->
 // <!--       Public functions                                                                  -->
 // <!-- --------------------------------------------------------------------------------------- -->
@@ -112,18 +101,18 @@ class ftp_base {
 			$bad=array("(?)");
 			if(in_array($v["owner"], $bad)) $v["owner"]=NULL;
 			if(in_array($v["group"], $bad)) $v["group"]=NULL;
-			$v["perms"]+=00400*(int)($ret[2]{0}=="r");
-			$v["perms"]+=00200*(int)($ret[2]{1}=="w");
-			$v["perms"]+=00100*(int)in_array($ret[2]{2}, array("x","s"));
-			$v["perms"]+=00040*(int)($ret[2]{3}=="r");
-			$v["perms"]+=00020*(int)($ret[2]{4}=="w");
-			$v["perms"]+=00010*(int)in_array($ret[2]{5}, array("x","s"));
-			$v["perms"]+=00004*(int)($ret[2]{6}=="r");
-			$v["perms"]+=00002*(int)($ret[2]{7}=="w");
-			$v["perms"]+=00001*(int)in_array($ret[2]{8}, array("x","t"));
-			$v["perms"]+=04000*(int)in_array($ret[2]{2}, array("S","s"));
-			$v["perms"]+=02000*(int)in_array($ret[2]{5}, array("S","s"));
-			$v["perms"]+=01000*(int)in_array($ret[2]{8}, array("T","t"));
+			$v["perms"]+=00400*(int)($ret[2][0]=="r");
+			$v["perms"]+=00200*(int)($ret[2][1]=="w");
+			$v["perms"]+=00100*(int)in_array($ret[2][2], array("x","s"));
+			$v["perms"]+=00040*(int)($ret[2][3]=="r");
+			$v["perms"]+=00020*(int)($ret[2][4]=="w");
+			$v["perms"]+=00010*(int)in_array($ret[2][5], array("x","s"));
+			$v["perms"]+=00004*(int)($ret[2][6]=="r");
+			$v["perms"]+=00002*(int)($ret[2][7]=="w");
+			$v["perms"]+=00001*(int)in_array($ret[2][8], array("x","t"));
+			$v["perms"]+=04000*(int)in_array($ret[2][2], array("S","s"));
+			$v["perms"]+=02000*(int)in_array($ret[2][5], array("S","s"));
+			$v["perms"]+=01000*(int)in_array($ret[2][8], array("T","t"));
 		}
 		return $v;
 	}
@@ -394,11 +383,9 @@ class ftp_base {
 		if(!$this->_exec("FEAT", "features")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
 		$f=array_slice(preg_split("/[".CRLF."]+/", $this->_message, -1, PREG_SPLIT_NO_EMPTY), 1, -1);
-		array_walk($f, function($a) {
-			return preg_replace("/[0-9]{3}[\s-]+/", "", trim($a));
-		});
+		array_walk($f, create_function('&$a', '$a=preg_replace("/[0-9]{3}[\s-]+/", "", trim($a));'));
 		$this->_features=array();
-		foreach($f as $v) {
+		foreach($f as $k=>$v) {
 			$v=explode(" ", trim($v));
 			$this->_features[array_shift($v)]=$v;
 		}
@@ -409,7 +396,7 @@ class ftp_base {
 		return $this->_list(($arg?" ".$arg:"").($pathname?" ".$pathname:""), "LIST", "rawlist");
 	}
 
-	function nlist($pathname="", $arg="") {
+	function nlist($pathname="") {
 		return $this->_list(($arg?" ".$arg:"").($pathname?" ".$pathname:""), "NLST", "nlist");
 	}
 
@@ -643,18 +630,16 @@ class ftp_base {
 			$pattern=substr($pattern,$lastpos);
 		} else $path=getcwd();
 		if(is_array($handle) and !empty($handle)) {
-			foreach($handle as $dir) {
-				if($this->glob_pattern_match($pattern,$dir)) {
-					$output[]=$dir;
-				}
+			while($dir=each($handle)) {
+				if($this->glob_pattern_match($pattern,$dir))
+				$output[]=$dir;
 			}
 		} else {
 			$handle=@opendir($path);
 			if($handle===false) return false;
 			while($dir=readdir($handle)) {
-				if($this->glob_pattern_match($pattern,$dir)) {
-					$output[]=$dir;
-				}
+				if($this->glob_pattern_match($pattern,$dir))
+				$output[]=$dir;
 			}
 			closedir($handle);
 		}
@@ -680,7 +665,11 @@ class ftp_base {
 			$out[]=$pattern;
 		}
 		if(count($out)==1) return($this->glob_regexp("^$out[0]$",$string));
-		else return false;
+		else {
+			foreach($out as $tester)
+				if($this->my_regexp("^$tester$",$string)) return true;
+		}
+		return false;
 	}
 
 	function glob_regexp($pattern,$probe) {

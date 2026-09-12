@@ -1,10 +1,12 @@
+/* Admin menu – modernized */
+*, *::before, *::after { box-sizing: border-box; }
 * {
 	font-family: "Lucida Grande", "MS Sans Serif", "Bitstream Vera Sans", Verdana, sans-serif;
 }
 body {
 	background-color: #EEEEEE;
 	margin: 5px;
-	font-size: 9pt;
+	font-size: 10.5pt;
 }
 a {
 	text-decoration: none;
@@ -19,7 +21,7 @@ h3 {
 	background-color: #204A87;
 	background-image: url(images/obox.gif);
 	color: #ffffff;
-	font-size: 9pt;
+	font-size: 10.5pt;
     border-bottom: 1px solid #3465A4;
     letter-spacing: 1px;
 }
@@ -48,10 +50,10 @@ ul li:hover {
 	border-bottom: 1px solid #A40000;
 }
 ul li, .boxbody {
-	font-size: 9pt;
+	font-size: 10.5pt;
 }
 .stext {
-	font-size: 8pt;
+	font-size: 9pt;
 }
 .center {
 	text-align: center;

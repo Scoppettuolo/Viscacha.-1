@@ -7,7 +7,7 @@ class cache_memberdata extends CacheItem {
 		}
 		else {
 			$this->data = array();
-			$result = $db->query("SELECT id, name FROM {$db->pre}user");
+			$result = $db->query("SELECT id, name FROM {$db->pre}user", false);
 			while ($row = $db->fetch_assoc($result)) {
 				$this->data[$row['id']] = $gpc->prepare($row['name']);
 			}

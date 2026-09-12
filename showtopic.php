@@ -31,17 +31,23 @@ include ("data/config.inc.php");
 include ("classes/function.viscacha_frontend.php");
 
 ($code = $plugins->load('showtopic_topic_query')) ? eval($code) : null;
-$result = $db->query("SELECT id, topic, posts, sticky, status, last, board, vquestion, prefix FROM {$db->pre}topics WHERE id = '{$_GET['id']}' LIMIT 1");
+$topic_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$error = array();
+if ($topic_id < 1) {
+	$error[] = $lang->phrase('query_string_error');
+	errorLogin($error,'forum.php'.SID2URL_1);
+}
+$result = $db->query("SELECT id, topic, posts, sticky, status, last, board, vquestion, prefix FROM {$db->pre}topics WHERE id = '{$topic_id}' LIMIT 1");
 $info = $gpc->prepare($db->fetch_assoc($result));
+if (!$info || empty($info['id'])) {
+	$error[] = $lang->phrase('query_string_error');
+	errorLogin($error,'forum.php'.SID2URL_1);
+}
 
 $my->p = $slog->Permissions($info['board']);
 $my->mp = $slog->ModPermissions($info['board']);
 
-$error = array();
-if ($db->num_rows($result) < 1) {
-	$error[] = $lang->phrase('query_string_error');
-}
-if ($my->p['forum'] == 0) {
+if (empty($my->p['forum'])) {
 	$error[] = $lang->phrase('not_allowed');
 }
 if (count($error) > 0) {
@@ -224,11 +230,12 @@ if (!empty($info['vquestion'])) {
 			foreach ($vote['entries'] as $key => $row) {
 				if ($row['votes'] > 0) {
 					$row['percent'] = $row['votes'] / $vote['count'] * 100;
-					$row['percent_str'] = numbers($row['percent'], 1);
+					if (strstr($row['percent'], '.') > 0) {
+						$row['percent'] = numbers($row['percent'], 1);
+					}
 				}
 				else {
 					$row['percent'] = 0;
-					$row['percent_str'] = "0";
 				}
 				$vote['entries'][$key] = $row;
 
@@ -287,7 +294,7 @@ $sql_order = iif($last['post_order'] == 1, 'DESC', 'ASC');
 $result = $db->query("
 SELECT
 	r.id, r.edit, r.dosmileys, r.dowords, r.topic, r.comment, r.date, r.email as gmail, r.guest, r.name as gname, r.report, r.tstart,
-	u.id as mid, u.name as uname, u.mail, u.regdate, u.posts, u.fullname, u.hp, u.signature, u.location, u.gender, u.birthday, u.pic, u.lastvisit, u.jabber, u.skype, u.groups,
+	u.id as mid, u.name as uname, u.mail, u.regdate, u.posts, u.fullname, u.hp, u.signature, u.location, u.gender, u.birthday, u.pic, u.lastvisit, u.icq, u.yahoo, u.aol, u.msn, u.jabber, u.skype, u.groups,
 	f.* {$sql_select}
 FROM {$db->pre}replies AS r
 	LEFT JOIN {$db->pre}user AS u ON r.name = u.id AND r.guest = '0'
@@ -466,7 +473,7 @@ if ($my->vlogin && is_id($info['id'])) {
 	$result = $db->query("SELECT id, type FROM {$db->pre}abos WHERE mid = '{$my->id}' AND tid = '{$info['id']}'");
 	$abox = $db->fetch_assoc($result);
 }
-if (empty($abox)) {
+else {
 	$abox = array('id' => null, 'type' => null);
 }
 

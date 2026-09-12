@@ -120,7 +120,7 @@ class cache_package_browser extends CacheItem {
 		}
 	}
 
-	function getOne($type = IMPTYPE_PACKAGE, $id) {
+	function getOne($type = IMPTYPE_PACKAGE, $id = 0) {
 		if ($this->data == null || $this->expired($this->max_age)) {
 			$this->load();
 		}

@@ -73,7 +73,7 @@ if ($_GET['action'] == 'vote') {
 }
 elseif ($_GET['action'] == 'captcha') {
 	send_nocache_header();
-	$place = $gpc->get('place', none, 'register');
+	$place = $gpc->get('place', none, 'posts');
 	$captcha = newCAPTCHA($place);
 	$captcha->makeImage($lang->phrase('img_captcha_session_expired_error'));
 }

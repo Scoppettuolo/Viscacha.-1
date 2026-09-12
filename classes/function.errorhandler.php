@@ -48,6 +48,13 @@ else {
 	$bitmask = 0;
 }
 
+// PHP 8+: never surface deprecations from legacy code in the browser
+if (defined('E_DEPRECATED')) {
+	$bitmask = $bitmask & ~E_DEPRECATED;
+}
+if (defined('E_STRICT')) {
+	$bitmask = $bitmask & ~E_STRICT;
+}
 error_reporting($bitmask);
 
 if ($config['error_handler'] == 1) {

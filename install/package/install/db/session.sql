@@ -1,5 +1,5 @@
 CREATE TABLE `{:=DBPREFIX=:}session` (
-  `mid` mediumint(7) unsigned default NULL,
+  `mid` mediumint(7) unsigned NOT NULL default '0',
   `active` int(10) unsigned NOT NULL default '0',
   `wiw_script` varchar(50) NOT NULL default '',
   `wiw_action` varchar(50) NOT NULL default '',
@@ -12,6 +12,6 @@ CREATE TABLE `{:=DBPREFIX=:}session` (
   `is_bot` mediumint(6) unsigned NOT NULL default '0',
   `pwfaccess` text NOT NULL,
   `settings` text NOT NULL,
-  UNIQUE KEY `mid` (`mid`),
+  KEY `mid` (`mid`),
   KEY `sid` (`sid`)
 ) ENGINE=MyISAM;

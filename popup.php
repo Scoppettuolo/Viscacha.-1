@@ -64,7 +64,7 @@ elseif ($_GET['action'] == "showpost") {
 	SELECT
 		t.status, t.prefix,
 		r.topic_id, r.board, r.edit, r.dosmileys, r.dowords, r.id, r.topic, r.comment, r.date, r.name as gname, r.email as gmail, r.guest,
-		u.id as mid, u.name as uname, u.mail, u.regdate, u.fullname, u.hp, u.signature, u.location, u.gender, u.birthday, u.pic, u.lastvisit, u.jabber, u.skype, u.groups,
+		u.id as mid, u.name as uname, u.mail, u.regdate, u.fullname, u.hp, u.signature, u.location, u.gender, u.birthday, u.pic, u.lastvisit, u.icq, u.yahoo, u.aol, u.msn, u.jabber, u.skype, u.groups,
 		f.* {$sql_select}
 	FROM {$db->pre}replies AS r
 		LEFT JOIN {$db->pre}user AS u ON r.name = u.id AND r.guest = '0'
@@ -281,7 +281,10 @@ elseif ($_GET['action'] == "postrating") {
 		WHERE mid = '{$my->id}' AND pid = '{$_GET['id']}'
 		");
 		$rating = $db->fetch_assoc($result);
-		$rating['rating'] = intval($rating['rating']);
+		if (!is_array($rating)) {
+			$rating = array('rating' => 0);
+		}
+		$rating['rating'] = intval(isset($rating['rating']) ? $rating['rating'] : 0);
 
 		if ($post['name'] != $my->id) {
 			if (!empty($rtg) && $rating['rating'] != 1 && $rating['rating'] != -1) {

@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 
 chdir('../');
 
-define('VISCACHA_VERSION', '0.8.1.3');
+define('VISCACHA_VERSION', '0.8.2.0');
 define('VISCACHA_CORE', '1');
 define('SCRIPTNAME', 'install');
 define('SCRIPT_LOCKED', file_exists('./locked.txt'));
@@ -11,6 +11,7 @@ define('SCRIPT_LOCKED', file_exists('./locked.txt'));
 if (!SCRIPT_LOCKED) {
 
 	$config = array();
+	require_once('classes/php8_compat.php');
 	require_once('install/classes/function.phpcore.php');
 	require_once('install/classes/function.tools.php');
 
@@ -174,7 +175,7 @@ if (!SCRIPT_LOCKED) {
 	</div>
 	<br class="invclear" />
 	<div class="breadcrumb center">
-		Powered by <strong><a href="http://www.viscacha.org" target="_blank">Viscacha <?php echo VISCACHA_VERSION; ?></a></strong> &middot; Copyright &copy; 2004-2009, The Viscacha Project
+		Powered by <strong><a href="http://www.viscacha.org" target="_blank">Viscacha <?php echo VISCACHA_VERSION; ?></a></strong> &middot; Copyright &copy; 2004-2009, The Viscacha Project<br /><a href="https://github.com/Scoppettuolo" target="_blank" rel="noopener">GitHub – Scoppettuolo</a> &middot; <a href="https://katnya.blogspot.com/" target="_blank" rel="noopener">Katnya</a>
 	</div>
 </div>
 </body>

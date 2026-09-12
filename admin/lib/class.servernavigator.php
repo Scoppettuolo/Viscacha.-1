@@ -21,7 +21,7 @@ class ServerNavigator
 	var $root;				   // (string)  Path to root
 	var $path;				   // (string)  Path to showed dir
 
-	var $icon;				   // (array) 	Array with cached data
+	var $icon = array();				   // (array) 	Array with cached data
 
 	var $plain;
 	var $extract;
@@ -62,7 +62,7 @@ class ServerNavigator
 
 	function ext() {
 		global $db;
-		if (empty($this->icon)) {
+		if (!is_array($this->icon) || count($this->icon) == 0) {
 			$this->icon = array();
 			$result = $db->query('SELECT extension, icon, mimetype, stream FROM '.$db->pre.'filetypes');
 			while ($row = $db->fetch_assoc($result)) {
@@ -74,16 +74,16 @@ class ServerNavigator
 				}
 			}
 			$this->icon['directory'] = array(
-				'extension' => 'directory',
-				'icon' => 'folder',
-				'mimetype' => 'text/html',
-				'stream' => 'inline'
+			'extension' => 'directory',
+			'icon' => 'folder',
+			'mimetype' => 'text/html',
+			'stream' => 'inline'
 			);
 		}
 	}
 
 	function icons($ext) {
-		global $tpl;
+		global $my, $tpl;
 		$this->ext();
 		$ext = strtolower($ext);
 		if ($this->use_image_icons && is_a($tpl, 'tpl')) {

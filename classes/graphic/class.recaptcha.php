@@ -96,7 +96,7 @@ class ReCaptcha {
 	 * @return string - The HTML to be embedded in the user's form.
 	 * @todo Implement custom code (with own language engine)
 	 */
-	function generateCode($tabindex = 0, $place = 'register') {
+	function generateCode($tabindex = 0) {
 		global $tpl, $lang;
 
 		$pubkey = $this->public_key;
@@ -105,7 +105,7 @@ class ReCaptcha {
 			$language = $lang->phrase('lang_code');
 		}
 
-		$tpl->globalvars(compact("pubkey", "tabindex", "language", "place"));
+		$tpl->globalvars(compact("pubkey", "tabindex", "language"));
 		return $tpl->parse('main/recaptcha');
 	}
 

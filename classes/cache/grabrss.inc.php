@@ -7,7 +7,7 @@ class cache_grabrss extends CacheItem {
 		    $this->import();
 		}
 		else {
-		    $result = $db->query("SELECT id, file, title, entries, max_age FROM {$db->pre}grab");
+		    $result = $db->query("SELECT id, file, title, entries, max_age FROM {$db->pre}grab", false);
 		    $this->data = array();
 		    while ($row = $db->fetch_assoc($result)) {
 				$row['max_age'] = $row['max_age'] * 60; // Calculate the seconds

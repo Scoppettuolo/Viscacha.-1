@@ -26,15 +26,16 @@
 	echo "- FTP class loaded and initialized.<br />";
 
 	if (!class_exists('DB')) {
-		require_once('install/classes/database/mysqli.inc.php');
+		require_once('install/classes/database/' . $config['dbsystem'] . '.inc.php');
 		$db = new DB($config['host'], $config['dbuser'], $config['dbpw'], $config['database'], $config['dbprefix']);
+		$db->setPersistence($config['pconnect']);
 	}
 
 	echo "- Database class loaded and initialized.<br />";
 	
 // Database
 	
-	$db->query("ALTER TABLE {$db->pre}user CHANGE `birthday` `birthday` char(10) NOT NULL default '0000-00-00'");
+	$db->query("ALTER TABLE v_user CHANGE `birthday` `birthday` char(10) NOT NULL default '0000-00-00'");
 
 	echo "- Database structure updated.<br />";
 
@@ -61,7 +62,7 @@
 		array(
 			'language_de' => array(
 				'pm_addressee_edit' => null,
-				'register_resend_title' => 'BestÃ¤tigungslink erneut anfordern'
+				'register_resend_title' => 'Bestätigungslink erneut anfordern'
 			),
 			'language' => array(
 				'pm_addressee_edit' => null
